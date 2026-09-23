@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "required": [
+    "path",
+    "source_sha256",
+    "package_sha256",
+    "plan_request",
+    "package_check",
+    "status",
+    "authority_use"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "path": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "package_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "plan_request": {
+      "type": "object"
+    },
+    "package_check": {
+      "type": "object"
+    },
+    "status": {
+      "const": "packaged-not-runtime-tested"
+    },
+    "authority_use": {
+      "type": "array",
+      "maxItems": 0
+    }
+  }
+}

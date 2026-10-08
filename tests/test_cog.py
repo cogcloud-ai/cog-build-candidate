@@ -27,3 +27,14 @@ class BuildContractTests(unittest.TestCase):
     def test_sample_is_valid_input(self):
         bundle = json.loads((ROOT/'examples/sample-bundle.json').read_text())
         self.assertEqual(cog_core.validate_input(bundle), [])
+
+    def test_receipt_schema_accepts_valid_shape_and_refuses_malformed(self):
+        import jsonschema
+        schema = json.loads((ROOT / 'context/input-schema.json').read_text())['properties']['author_request']['properties']['revision']
+        receipt = {'schema': 'openteams/cog-revision [0.1]', 'accepted_contract_sha256': 'a'*64,
+                   'candidate_sha256': 'b'*64, 'review_request': {}, 'review_envelope': {},
+                   'review_sha256': 'c'*64, 'allowed_change_scope': {'paths': ['src/task_logic.py'], 'criterion_ids': ['criterion']}}
+        jsonschema.validate(receipt, schema)
+        receipt['candidate_sha256'] = 'bad'
+        with self.assertRaises(jsonschema.ValidationError):
+            jsonschema.validate(receipt, schema)

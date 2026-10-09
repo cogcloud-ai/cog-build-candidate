@@ -23,3 +23,9 @@ that license.
 
 See the [suite guide](https://github.com/cogcloud-ai/cog-op-builder/blob/main/docs/repositories.md)
 for repository roles, supported setup, and current limitations.
+
+Candidate materialization accepts the author's durable `revision` receipt in the
+full author request. The exporter validates that receipt and the scoped source
+changes before any package is created; materialization still does not decide
+whether to revise or accept. This is the schema companion to the public builder's
+bounded revision cycle and cog-author's candidate-bound handoff.
